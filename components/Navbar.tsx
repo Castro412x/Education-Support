@@ -1,7 +1,7 @@
 'use client'
 
 import Link from 'next/link'
-import { useAuth } from '@/hooks/useAuth'
+import { useAuthContext } from '@/components/AuthProvider'
 import { Button } from '@/components/ui/button'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import {
@@ -14,7 +14,7 @@ import {
 import { BookOpen, LogOut, User, LayoutDashboard } from 'lucide-react'
 
 export function Navbar() {
-  const { user, userData, logout } = useAuth()
+  const { user, userData, logout } = useAuthContext()
 
   return (
     <nav className="border-b">
