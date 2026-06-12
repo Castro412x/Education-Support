@@ -17,6 +17,7 @@ import {
   CardTitle,
 } from '@/components/ui/card'
 import { Separator } from '@/components/ui/separator'
+import { ReviewsSection } from '@/components/ReviewsSection'
 import { formatCurrency, formatDate } from '@/lib/utils'
 import {
   Calendar,
@@ -198,6 +199,14 @@ export default function SessionDetailPage({ params }: { params: { id: string } }
               <p className="font-semibold text-primary">You have booked this session</p>
             </div>
           ) : null}
+
+          {session.status === 'completed' && (
+            <ReviewsSection
+              toUserId={session.tutorId}
+              sessionId={session.id}
+              showForm={!!user && user.uid === session.studentId}
+            />
+          )}
         </CardContent>
       </Card>
     </div>
