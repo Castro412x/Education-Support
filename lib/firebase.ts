@@ -1,6 +1,6 @@
 import { initializeApp, getApps, FirebaseApp } from 'firebase/app'
 import { getAuth, Auth } from 'firebase/auth'
-import { getFirestore, Firestore } from 'firebase/firestore'
+import { getFirestore, Firestore, enableMultiTabIndexedDbPersistence } from 'firebase/firestore'
 import { getStorage, FirebaseStorage } from 'firebase/storage'
 
 const firebaseConfig = {
@@ -22,6 +22,16 @@ if (!getApps().length) {
   auth = getAuth(app)
   db = getFirestore(app)
   storage = getStorage(app)
+
+  if (typeof window !== 'undefined') {
+    enableMultiTabIndexedDbPersistence(db).catch((err) => {
+      if (err.code === 'failed-precondition') {
+        console.warn('Firestore persistence: multiple tabs open')
+      } else if (err.code === 'unimplemented') {
+        console.warn('Firestore persistence not supported')
+      }
+    })
+  }
 } else {
   app = getApps()[0]
   auth = getAuth(app)
